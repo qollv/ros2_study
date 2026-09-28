@@ -40,7 +40,8 @@ setup(
     data_files=[
         ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name + '/launch', ['launch/demo_launch.py']),
+        ('share/' + package_name + '/launch',
+         ['launch/demo_launch.py', 'launch/tf_demo_launch.py']),
     ],
 
     install_requires=['setuptools'],
@@ -76,6 +77,9 @@ setup(
             'action_client = ros2_basics.action_client:main',
             'param_demo = ros2_basics.param_demo:main',
             'qos_demo = ros2_basics.qos_demo:main',
+            'static_tf_broadcaster = ros2_basics.static_tf_broadcaster:main',
+            'odom_tf_broadcaster = ros2_basics.odom_tf_broadcaster:main',
+            'tf_listener_demo = ros2_basics.tf_listener_demo:main',
         ],
     },
 )

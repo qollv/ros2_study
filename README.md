@@ -186,6 +186,53 @@ ros2 topic info /scan --verbose
 
 **验收**：看到 `incompatible QoS` 警告能立刻反应过来去查 Reliability 和 Durability。
 
+### 练习 6：TF 坐标系 —— 导航系统的骨架
+
+一条命令拉起一棵完整的 TF 树（odom → base_link → laser）：
+
+```bash
+ros2 launch ros2_basics tf_demo_launch.py
+ros2 launch ros2_basics tf_demo_launch.py radius:=0.5 speed:=1.0   # 改轨迹
+```
+
+里面有三个节点：
+
+| 节点 | 广播的边 | 类型 |
+|---|---|---|
+| `odom_tf_broadcaster` | odom → base_link | 动态，20Hz，模拟里程计让机器人绕圆 |
+| `static_tf_broadcaster` | base_link → laser | 静态，雷达安装位姿（0.2, 0, 0.15） |
+| `tf_listener_demo` | 只查询不广播 | 每秒查 odom → laser 并打印 |
+
+实测输出（base_link 在半径 1m 的圆上转，laser 恒定高 0.15m）：
+
+```
+laser 在 odom 中的位姿: x=+0.782 y=+0.655 z=+0.150 yaw=+2.071 rad
+laser 在 odom 中的位姿: x=+0.372 y=+0.950 z=+0.150 yaw=+2.571 rad
+...
+用 now() 查询失败(ExtrapolationException) —— 这就是「查未来」的经典报错
+can_transform(等待2秒) = 1 —— 树已连通
+```
+
+另开终端做这些观察：
+
+```bash
+ros2 run tf2_ros tf2_echo odom laser     # 命令行版查询，实时刷新
+ros2 topic echo /tf --once               # 看动态 TF 消息长什么样
+ros2 topic echo /tf_static --once        # 静态 TF 只在这里，只发一次
+ros2 run tf2_ros tf2_monitor             # 各条边的广播频率（核对 20Hz）
+```
+
+**三个必须掌握的点**：
+
+1. **`lookup_transform(target, source, time)` 返回的是 source 在 target 下的位姿**，参数顺序别背反了；
+2. **time 参数用 `Time()` 查最新，不要用 `now()`** —— `now()` 必然比最新 TF 消息的时间戳晚一点，会报 `ExtrapolationException`（本例实测复现了这个报错）；
+3. **三种异常对应三种故障**：`LookupException`=坐标系不存在、`ConnectivityException`=树断了、`ExtrapolationException`=时间越界。真机定位飘时按这个顺序排查。
+
+> 注：本机的 `view_frames` 能返回树数据但没生成 pdf（环境怪癖）。
+> 树信息可以用 `ros2 run tf2_ros tf2_monitor` 或 GUI 的 `rqt_tf_tree` 看。
+
+**验收**：能画出你机器狗的 TF 树（有几个 frame、每条边谁广播、频率多少），并能解释 map 和 odom 为什么要分成两层。
+
 ---
 
 ## 3. 必会命令速查
@@ -231,8 +278,9 @@ ros2 bag play <目录>
 | 3 | **Parameter + yaml** | **重点补** —— Nav2 调参全靠它 |
 | 4 | Service / Action | **重点补** —— Action 是 NavigateToPose 的地基 |
 | 5 | Launch 文件 | 已会，看一眼 `launch/demo_launch.py` 即可 |
-| 6 | **TF 坐标系** | **最重点** —— `map → odom → base_link`，下一阶段专门练 |
-| 7 | URDF / robot_state_publisher | 真机和仿真都要用到 |
+| 6 | **QoS** | 练习 5，ROS1 转过来的必补 |
+| 7 | **TF 坐标系** | 练习 6，导航系统骨架，已完成示例 |
+| 8 | URDF / robot_state_publisher | 真机和仿真都要用到（下一课） |
 
 ---
 
