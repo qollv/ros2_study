@@ -22,3 +22,7 @@ __pycache__/
 # tf2_tools view_frames 生成的产物（带时间戳）
 frames_*.gv
 frames_*.pdf
+
+# 临时测试日志
+*.log
+!docs/**/*.log
