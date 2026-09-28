@@ -1,0 +1,44 @@
+[INFO] [launch]: All log files can be found below /home/dog2/.ros/log/2026-09-28-18-33-35-278467-dog2-50
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [launch.user]: === Launch 进阶演示：条件 + 命名空间 + 重映射 + 事件 ===
+[INFO] [talker-1]: process started with pid [51]
+[INFO] [listener-2]: process started with pid [53]
+[INFO] [launch.user]: [事件] talker 进程已启动，正在发布...
+[talker-1] [INFO] [1790591615.768492435] [robot1.talker]: 发布者已启动，频率 2.0 Hz，话题 /chatter
+[listener-2] [INFO] [1790591615.768492268] [robot1.listener]: 订阅者已启动，监听 /chatter
+[listener-2] sequence size exceeds remaining buffer
+[talker-1] sequence size exceeds remaining buffer
+[talker-1] sequence size exceeds remaining buffer
+[talker-1] sequence size exceeds remaining buffer
+[listener-2] sequence size exceeds remaining buffer
+[listener-2] sequence size exceeds remaining buffer
+[talker-1] sequence size exceeds remaining buffer
+[talker-1] sequence size exceeds remaining buffer
+[listener-2] sequence size exceeds remaining buffer
+[listener-2] sequence size exceeds remaining buffer
+[talker-1] [INFO] [1790591616.256457176] [robot1.talker]: 发布: "hello ros2 0"
+[listener-2] [INFO] [1790591616.256780138] [robot1.listener]: 收到: "hello ros2 0"
+[talker-1] [INFO] [1790591616.756368681] [robot1.talker]: 发布: "hello ros2 1"
+[listener-2] [INFO] [1790591616.756639123] [robot1.listener]: 收到: "hello ros2 1"
+[talker-1] [INFO] [1790591617.256836390] [robot1.talker]: 发布: "hello ros2 2"
+[listener-2] [INFO] [1790591617.257176456] [robot1.listener]: 收到: "hello ros2 2"
+[talker-1] [INFO] [1790591617.756372114] [robot1.talker]: 发布: "hello ros2 3"
+[listener-2] [INFO] [1790591617.756697124] [robot1.listener]: 收到: "hello ros2 3"
+[talker-1] [INFO] [1790591618.256363658] [robot1.talker]: 发布: "hello ros2 4"
+[listener-2] [INFO] [1790591618.256642132] [robot1.listener]: 收到: "hello ros2 4"
+[talker-1] [INFO] [1790591618.756537442] [robot1.talker]: 发布: "hello ros2 5"
+[listener-2] [INFO] [1790591618.756779509] [robot1.listener]: 收到: "hello ros2 5"
+[talker-1] [INFO] [1790591619.256673448] [robot1.talker]: 发布: "hello ros2 6"
+[listener-2] [INFO] [1790591619.256917935] [robot1.listener]: 收到: "hello ros2 6"
+[talker-1] [INFO] [1790591619.756607891] [robot1.talker]: 发布: "hello ros2 7"
+[listener-2] [INFO] [1790591619.756919131] [robot1.listener]: 收到: "hello ros2 7"
+[talker-1] [INFO] [1790591620.256176209] [robot1.talker]: 发布: "hello ros2 8"
+[listener-2] [INFO] [1790591620.256430127] [robot1.listener]: 收到: "hello ros2 8"
+[talker-1] [INFO] [1790591620.756160199] [robot1.talker]: 发布: "hello ros2 9"
+[listener-2] [INFO] [1790591620.756527143] [robot1.listener]: 收到: "hello ros2 9"
+[talker-1] [INFO] [1790591621.256151611] [robot1.talker]: 发布: "hello ros2 10"
+[listener-2] [INFO] [1790591621.256373780] [robot1.listener]: 收到: "hello ros2 10"
+[talker-1] [INFO] [1790591621.757885612] [robot1.talker]: 发布: "hello ros2 11"
+[listener-2] [INFO] [1790591621.764846514] [robot1.listener]: 收到: "hello ros2 11"
+[talker-1] [INFO] [1790591622.256511262] [robot1.talker]: 发布: "hello ros2 12"
+[listener-2] [INFO] [1790591622.256747773] [robot1.listener]: 收到: "hello ros2 12"

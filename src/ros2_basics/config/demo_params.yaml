@@ -1,0 +1,19 @@
+# 练习 8：Launch 参数文件示例 —— 这就是 Nav2 参数加载的原理
+#
+# 这个 yaml 会被 demo_launch 的升级版加载，覆盖节点里的默认参数。
+#
+# 关键语法：
+#   /**:            通配符，匹配所有节点（多机器人时最省事）
+#   /param_demo:    只匹配名字叫 param_demo 的节点（精确匹配）
+#   ros__parameters: 固定写法，参数都放在这个键下面
+#
+# Nav2 的 nav2_params.yaml 就是一个几千行的这种文件，
+# 里面 /**: 下面塞了 controller_server、planner_server 等十几个节点的参数。
+#
+# 你调狗上的 xy_goal_tolerance，本质上就是改这个文件里的一个数字。
+
+/**:
+  ros__parameters:
+    robot_name: "yaml_loaded_dog"
+    tolerance: 0.15          # 呼应你狗上的 xy_goal_tolerance
+    max_speed: 0.8

@@ -274,6 +274,40 @@ ros2 run ros2_basics drive_to_client 3 4
 > 原因：PATH 里 python3 是 WorkBuddy 托管的 3.13，ROS Humble 需要系统 3.10。
 > 解决：编译命令加前缀 `PATH=/usr/bin:$PATH colcon build`。
 
+### 练习 8：Launch 进阶 —— yaml 参数 / 条件 / 命名空间 / 事件
+
+基础（起多节点+传参）在练习 1/6 的 launch 文件里已经见过，这课补齐 Nav2 启动脚本用到的高阶武器：
+
+```bash
+# 1. yaml 参数文件加载（= Nav2 的 params_file 机制）
+ros2 launch ros2_basics yaml_params_launch.py
+ros2 param get /param_demo tolerance        # 实测 0.15，覆盖了代码默认的 0.25
+ros2 param get /param_demo robot_name       # 实测 yaml_loaded_dog
+
+# 2. 条件启动 + 命名空间 + 话题重映射 + 进程事件
+ros2 launch ros2_basics advanced_launch.py
+ros2 launch ros2_basics advanced_launch.py robot_namespace:=dog2   # 换前缀
+ros2 launch ros2_basics advanced_launch.py use_group:=false        # 整组不开
+ros2 node list                              # 实测 /robot1/talker /robot1/listener
+ros2 topic list                             # 实测 /robot1/status_text（重映射生效）
+```
+
+**五个武器对应五个真实问题**：
+
+| 武器 | 解决什么 | Nav2 里的样子 |
+|---|---|---|
+| `parameters=[yaml路径]` | 一次灌几十个参数 | `params_file:=nav2_params.yaml` |
+| `DeclareLaunchArgument` + `LaunchConfiguration` | 命令行开关 | `use_sim_time:=true` |
+| `IfCondition` | 按开关启停节点 | 建图/定位二选一（你那两份 .lua 的切换） |
+| `GroupAction` + `PushRosNamespace` | 多机器人复用 | 多机编队 /robot1 /robot2 |
+| `RegisterEventHandler` + `OnProcessStart/Exit` | 启动顺序、挂掉重启 | map_server 挂了自动处理 |
+
+**参数优先级**（低→高）：代码默认值 < yaml 文件 < launch 字典 < 命令行 `-p` < 运行时 `ros2 param set`。
+
+**踩坑记录**：`GroupAction` 对象没有 `.actions` 属性，事件处理器要引用组内节点时，先把节点定义成独立变量再放进组（见 `advanced_launch.py`）。
+
+**验收**：能说清你狗上的导航启动命令里每个参数去了哪，以及如何用命名空间把你的路网导航跑两份互不干扰。
+
 ---
 
 ## 3. 必会命令速查
