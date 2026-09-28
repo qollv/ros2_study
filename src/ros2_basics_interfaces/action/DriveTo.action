@@ -1,0 +1,27 @@
+# 自定义动作：驶向目标点（练习 7）
+#
+# .action 文件语法：用两个 --- 分成三段
+#   第一段 = Goal     （客户端发目标）
+#   第二段 = Result   （任务结束后返回）
+#   第三段 = Feedback （执行过程中持续反馈）
+#
+# Python 用法：
+#   DriveTo.Goal()      有 .target_x .target_y .max_speed
+#   DriveTo.Result()    有 .reached .final_distance
+#   DriveTo.Feedback()  有 .remaining_distance .current_speed
+#
+# 对应导航场景：这就是你自己版本的 NavigateToPose ——
+# 目标点进去，边开边报剩余距离，最后告诉你到没到
+
+# ---- Goal：要执行的任务 ----
+float64 target_x             # 目标点 x（odom 坐标系，米）
+float64 target_y             # 目标点 y
+float64 max_speed            # 最大速度（m/s），0 表示用默认值
+---
+# ---- Result：最终结果 ----
+bool reached                 # 是否成功到达（进入容差圈）
+float64 final_distance       # 停下时离目标还剩多少米（对照你狗上的 0.15 容差）
+---
+# ---- Feedback：执行中的进度 ----
+float64 remaining_distance   # 剩余距离（米）
+float64 current_speed        # 当前模拟速度（m/s）

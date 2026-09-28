@@ -233,6 +233,47 @@ ros2 run tf2_ros tf2_monitor             # 各条边的广播频率（核对 20H
 
 **验收**：能画出你机器狗的 TF 树（有几个 frame、每条边谁广播、频率多少），并能解释 map 和 odom 为什么要分成两层。
 
+### 练习 7：自定义接口 —— .msg / .srv / .action
+
+接口定义在独立包 `ros2_basics_interfaces`（**接口必须用 ament_cmake 包，Humble 下 Python 包不能生成接口**）：
+
+```
+src/ros2_basics_interfaces/
+├── msg/RobotStatus.msg     话题消息：机器人状态（含 Header 和变长数组）
+├── srv/ComputePath.srv     服务：起终点 -> 距离（用 --- 分隔请求/响应）
+└── action/DriveTo.action   动作：目标/结果/反馈（用两个 --- 分三段）
+```
+
+三个演示：
+
+```bash
+# 1. 自定义话题消息
+ros2 run ros2_basics status_publisher
+ros2 topic echo /robot_status          # 另一终端
+
+# 2. 自定义服务（服务端 + 命令行客户端，不用写客户端代码）
+ros2 run ros2_basics path_server
+ros2 service call /compute_path ros2_basics_interfaces/srv/ComputePath \
+    "{start_x: 0.0, start_y: 0.0, goal_x: 3.0, goal_y: 4.0}"
+# 实测返回：distance=5.0（勾股定理 3-4-5）
+
+# 3. 自定义动作（你自己版本的 NavigateToPose）
+ros2 run ros2_basics drive_to_server
+ros2 run ros2_basics drive_to_client 3 4
+# 实测：剩余距离从 4.80 米逐格递减，进入 0.10m 容差圈返回 reached=true
+```
+
+**必须记住的四点**：
+
+1. **接口包和功能包是分开的**：接口放 `*_interfaces`（CMake 包），节点放 Python 包。Nav2 的接口就在 `nav2_msgs` 包里；
+2. **改了 .msg/.srv/.action 必须重新 colcon build**，且依赖它的包也要重编（先编接口包，再编功能包）；
+3. **导入路径有规律**：`.msg -> 包名.msg`、`.srv -> 包名.srv`、`.action -> 包名.action`；
+4. **srv 用 `---` 分两段、action 用两个 `---` 分三段**，段错位置编译时报的字段错误很难看懂。
+
+> 本机坑（已踩）：直接 `colcon build` 编接口包报 `No module named 'em'`。
+> 原因：PATH 里 python3 是 WorkBuddy 托管的 3.13，ROS Humble 需要系统 3.10。
+> 解决：编译命令加前缀 `PATH=/usr/bin:$PATH colcon build`。
+
 ---
 
 ## 3. 必会命令速查

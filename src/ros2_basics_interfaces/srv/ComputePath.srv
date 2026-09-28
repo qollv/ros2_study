@@ -1,0 +1,23 @@
+# 自定义服务：路径计算（练习 7）
+#
+# .srv 文件语法：用 --- 把消息分成两半
+#   上半部分 = Request（客户端填）
+#   下半部分 = Response（服务端填）
+#
+# Python 用法：
+#   req = ComputePath.Request();  req.start_x = ...
+#   resp = ComputePath.Response(); resp.distance = ...
+#
+# 对应导航场景：这就是 Nav2 的 /plan_compute 之类的原型——
+# 给我起点终点，我还你一条路（这里简化成只算直线距离）
+
+# ---- Request：客户端 -> 服务端 ----
+float64 start_x
+float64 start_y
+float64 goal_x
+float64 goal_y
+---
+# ---- Response：服务端 -> 客户端 ----
+bool success                 # 是否可规划（比如目标点太近就拒绝）
+float64 distance             # 路径长度（米）
+string message               # 人类可读的说明，方便调试

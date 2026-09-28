@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>ros2_basics_interfaces</name>
+  <version>0.0.1</version>
+  <description>自定义接口包：.msg / .srv / .action（练习 7）</description>
+  <maintainer email="qhr@example.com">qhr</maintainer>
+  <license>Apache-2.0</license>
+
+  <!-- 接口包必须用 ament_cmake 构建，Humble 下 ament_python 不能生成接口 -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- rosidl_default_generators：把 .msg/.srv/.action 编译成 Python/C++ 代码 -->
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
+
+  <!-- RobotStatus.msg 里用了 std_msgs/Header，所以要依赖它 -->
+  <depend>std_msgs</depend>
+
+  <!-- 生成的代码运行时需要的库 -->
+  <exec_depend>rosidl_default_runtime</exec_depend>
+
+  <!-- 固定写法：声明本包属于 rosidl 接口包组 -->
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

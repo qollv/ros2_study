@@ -11,6 +11,8 @@
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>example_interfaces</exec_depend>
   <exec_depend>launch_ros</exec_depend>
+  <!-- 练习 7：自定义接口包（.msg/.srv/.action 在这里面） -->
+  <exec_depend>ros2_basics_interfaces</exec_depend>
 
   <export>
     <build_type>ament_python</build_type>

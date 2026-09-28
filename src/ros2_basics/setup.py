@@ -80,6 +80,10 @@ setup(
             'static_tf_broadcaster = ros2_basics.static_tf_broadcaster:main',
             'odom_tf_broadcaster = ros2_basics.odom_tf_broadcaster:main',
             'tf_listener_demo = ros2_basics.tf_listener_demo:main',
+            'status_publisher = ros2_basics.status_publisher:main',
+            'path_server = ros2_basics.path_server:main',
+            'drive_to_server = ros2_basics.drive_to_server:main',
+            'drive_to_client = ros2_basics.drive_to_client:main',
         ],
     },
 )
