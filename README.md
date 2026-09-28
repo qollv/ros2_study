@@ -228,8 +228,8 @@ ros2 run tf2_ros tf2_monitor             # 各条边的广播频率（核对 20H
 2. **time 参数用 `Time()` 查最新，不要用 `now()`** —— `now()` 必然比最新 TF 消息的时间戳晚一点，会报 `ExtrapolationException`（本例实测复现了这个报错）；
 3. **三种异常对应三种故障**：`LookupException`=坐标系不存在、`ConnectivityException`=树断了、`ExtrapolationException`=时间越界。真机定位飘时按这个顺序排查。
 
-> 注：本机的 `view_frames` 能返回树数据但没生成 pdf（环境怪癖）。
-> 树信息可以用 `ros2 run tf2_ros tf2_monitor` 或 GUI 的 `rqt_tf_tree` 看。
+> 注：`view_frames` 生成的文件带时间戳，名字形如
+> `frames_2026-09-28_18.21.15.pdf`（不是固定的 frames.pdf，别找不到就以为没生成）。
 
 **验收**：能画出你机器狗的 TF 树（有几个 frame、每条边谁广播、频率多少），并能解释 map 和 odom 为什么要分成两层。
 
